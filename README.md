@@ -5,5 +5,3 @@ Link for the competition: https://www.kaggle.com/c/FacebookRecruiting
 Link for the Sample code: https://github.com/benhamner/FacebookRecruitingCompetition
 
 You can download the data from https://www.kaggle.com/c/FacebookRecruiting/data and put it in the Data directory
-
-
