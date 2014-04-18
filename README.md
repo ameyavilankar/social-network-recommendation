@@ -1,10 +1,9 @@
-Sample code for the Facebook Recruiting competition, hosted by Kaggle.
+This code uses Sample code for the Facebook Recruiting competition, hosted by Kaggle.
+All the code on top that is written using numpy, scipy and sklearn.
 
-https://www.kaggle.com/c/FacebookRecruiting
+Link for the competition: https://www.kaggle.com/c/FacebookRecruiting
+Link for the Sample code: https://github.com/benhamner/FacebookRecruitingCompetition
 
-To run the sample code,
+You can download the data from https://www.kaggle.com/c/FacebookRecruiting/data and put it in the Data directory
 
- - Clone the repository: git clone https://github.com/benhamner/FacebookRecruitingCompetition.git
- - Download the data from https://www.kaggle.com/c/FacebookRecruiting/data and put it in the data directory
- - Run a benchmark: python bfs_benchmark.py
 
