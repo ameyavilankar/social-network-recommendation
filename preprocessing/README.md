@@ -1,4 +1,4 @@
-This folder contains python code for three benchmarks:
+This folder contains python code for three benchmarks.
 
  - bfs_benchmark.py
  - top_k_benchmark.py
@@ -8,9 +8,4 @@ Additionally, it contains a utilities script:
 
  - utilities.py
 
-Benchmarks can be executed as:
-
- - python bfs_benchmark.py
- - ./bfs_benchmark.py
-
-There are no dependencies beyond the standard python libraries.
+This script is used to load the graph. It also calculates and plots the in/out degree distribution of the graph.
