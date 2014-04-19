@@ -3,7 +3,7 @@ import networkx as nx
 import utilities
 
 
-FILE_PATH = "../data/sampled_train.csv"
+FILE_PATH = "../data/sampled_train_small.csv"
 
 class PersonalizedPageRank:
     NUM_ITERATIONS = 3
@@ -82,13 +82,17 @@ class PersonalizedPageRank:
 def get_followers_and_followings(filename):
     pass
 
-def save_to_compare_list_to_file(to_compare_list, filename):
+def save_to_compare_list_to_file(to_compare_list, nx_graph, filename):
     f = open(filename, 'w')
 
     for user_id, probabilityList in to_compare_list.iteritems():
         for entry in probabilityList:
             if user_id != entry[0]:
-                f.write(str(user_id) + ", " + str(entry[0]) + ", " + str(entry[1]) + "\n")
+                f.write(str(user_id) + ", " + str(entry[0]) + ", " + str(entry[1]))
+                if nx_graph.has_edge(user_id, entry[0]):
+                    f.write(", 1\n")
+                else:
+                    f.write(", 0\n")
 
     f.close()
 
@@ -104,7 +108,7 @@ def main():
     for user_id in nx_graph.nodes():
         to_compare_list[user_id] = ppr.get_page_rank(user_id)
 
-    save_to_compare_list_to_file(to_compare_list, "to_compare_list.txt")
+    save_to_compare_list_to_file(to_compare_list, nx_graph, "to_compare_list.txt")
 
 if __name__ == "__main__":
     main()
