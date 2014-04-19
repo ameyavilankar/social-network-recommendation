@@ -91,7 +91,7 @@ def write_submission_file(submission_file, test_nodes, test_predictions):
     f.close()
 
 def main():
-    nx_graph = read_graph("../Data/train.csv")
+    nx_graph = read_graph("../data/train.csv")
     print "NetworkX Directed Graph (V,E): (", nx_graph.number_of_nodes(), ",", nx_graph.number_of_edges(), ")"
 
     # Plot the in/out degree distribution
