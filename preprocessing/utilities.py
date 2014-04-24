@@ -1,7 +1,7 @@
 import csv
 import matplotlib.pyplot as plt
 import networkx as nx
-
+import pickle
 
 def plot_distribution(nx_graph, filename):
     """
@@ -90,8 +90,16 @@ def write_submission_file(submission_file, test_nodes, test_predictions):
                          " ".join([str(n) for n in destination_nodes])])
     f.close()
 
+def save_obj(obj, name ):
+    with open(name, 'wb') as f:
+        pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
+
+def load_obj(name):
+    with open(name, 'r') as f:
+        return pickle.load(f)
+
 def main():
-    nx_graph = read_graph("../data/train.csv")
+    nx_graph = read_graph("../Data/train.csv")
     print "NetworkX Directed Graph (V,E): (", nx_graph.number_of_nodes(), ",", nx_graph.number_of_edges(), ")"
 
     # Plot the in/out degree distribution

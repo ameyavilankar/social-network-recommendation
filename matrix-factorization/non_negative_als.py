@@ -3,10 +3,10 @@ import scipy.sparse as sparse
 from scipy.sparse.linalg import spsolve
 import time
 
-class ALSMatrixFactorization():
 
+class ALSMatrixFactorization():
     def __init__(self, counts, num_factors=40, num_iterations=30,
-                 reg_param=0.8):
+                 reg_param=0.02):
         self.counts = counts
         self.num_users = counts.shape[0]
         self.num_items = counts.shape[1]
@@ -28,6 +28,8 @@ class ALSMatrixFactorization():
             self.item_vectors = self.iteration(False, sparse.csr_matrix(self.user_vectors))
             t1 = time.time()
             print 'iteration %i finished in %f seconds' % (i + 1, t1 - t0)
+
+        return (self.user_vectors, self.item_vectors)
 
     def iteration(self, user, fixed_vecs):
         num_solve = self.num_users if user else self.num_items
@@ -55,3 +57,55 @@ class ALSMatrixFactorization():
                 t = time.time()
 
         return solve_vecs
+
+
+# Read the data from the file into np array and returns the array
+def get_data(filename, delimiter_type):
+    data = np.genfromtxt(filename, delimiter=delimiter_type)
+    return data
+
+
+if __name__ == "__main__":
+    # FILENAME = "truncated_ratings.txt"
+    # data = get_data(FILENAME, ",")
+    # print data.shape
+    #
+    # num_users = np.amax(data[:, 0]) + 1
+    # num_business = np.amax(data[:, 1]) + 1
+    #
+    # print "users", num_users
+    # print "bussines", num_business
+    #
+    # R = np.zeros((int(num_users), int(num_business)))
+    #
+    # for row in data:
+    #     R[int(row[0])][int(row[1])] = row[2]
+
+    R = [
+        [5, 3, 0, 1],
+        [4, 0, 0, 1],
+        [1, 1, 0, 5],
+        [1, 0, 0, 4],
+        [0, 1, 5, 4],
+    ]
+    R = np.array(R)
+    R_sparse = sparse.csr_matrix(R)
+
+    als_fact = ALSMatrixFactorization(R_sparse)
+
+    nP, nQ = als_fact.train_model()
+
+    print "P:", nP.shape
+    print "Q:", nQ.shape
+
+    new_R = np.dot(nP, nQ.T)
+    print "Matrix:", new_R
+    print "Matrix Old:", R
+
+    rmse = 0.0
+    for i in range(R.shape[0]):
+        for j in range(R.shape[1]):
+            if R[i, j] > 0:
+                rmse += (R[i, j] - new_R[i, j]) ** 2
+
+    print "RMSE:", rmse
