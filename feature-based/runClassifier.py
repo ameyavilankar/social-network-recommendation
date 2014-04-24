@@ -35,16 +35,16 @@ def run_random_forest(data, _max_depth):
 
     # TODO: Vary Number of Estimators
     rfc = RandomForestClassifier(n_estimators=500, criterion='gini', max_depth=_max_depth, max_features='auto',
-                                     bootstrap=True, oob_score=True, n_jobs=1)
+                                     bootstrap=True, oob_score=True, n_jobs=4, verbose = 1)
     rfc.fit(feature_train, label_train)
     training_error = rfc.score(feature_train, label_train)
-    cross_validation_score = cross_val_score(rfc, feature_train, label_train, cv=10)
+    #cross_validation_score = cross_val_score(rfc, feature_train, label_train, cv=10)
     testing_error = rfc.score(feature_test, label_test)
     out_of_bag_error = rfc.oob_score_
 
     print "Random Forest Results for Max Depth:", _max_depth
     print "Training Accuracy:", training_error
-    print "10-fold Cross Validation Accuracy: %0.2f (+/- %0.2f)" % (cross_validation_score.mean(), cross_validation_score.std() * 2)
+    #print "10-fold Cross Validation Accuracy: %0.2f (+/- %0.2f)" % (cross_validation_score.mean(), cross_validation_score.std() * 2)
     print "Testing Accuracy:", testing_error
     print "Out of Bag Accuracy:", out_of_bag_error
 
@@ -63,15 +63,15 @@ def run_gradient_boosting_classifier(data, _max_depth):
     (feature_train, feature_test, label_train, label_test) = train_test_split(data[:, 0:-1], data[:, -1].astype(int),
                                                                               test_size=0.25)
     # TODO: Vary Number of Estimators and Learning Rate
-    gbc = GradientBoostingClassifier(learning_rate=0.1, n_estimators=300, max_depth=_max_depth)
+    gbc = GradientBoostingClassifier(learning_rate=0.1, n_estimators=50, max_depth=_max_depth, verbose = True)
     gbc.fit(feature_train, label_train)
     training_error = gbc.score(feature_train, label_train)
-    cross_validation_score = cross_val_score(gbc, feature_train, label_train, cv=10)
+    #cross_validation_score = cross_val_score(gbc, feature_train, label_train, cv=10)
     testing_error = gbc.score(feature_test, label_test)
 
     print "Random Forest Results for Max Depth:", _max_depth
     print "Training Accuracy:", training_error
-    print "10-fold Cross Validation Accuracy: %0.2f (+/- %0.2f)" % (cross_validation_score.mean(), cross_validation_score.std() * 2)
+    #print "10-fold Cross Validation Accuracy: %0.2f (+/- %0.2f)" % (cross_validation_score.mean(), cross_validation_score.std() * 2)
     print "Testing Accuracy:", testing_error
 
     feature_importance = gbc.feature_importances_
@@ -90,28 +90,28 @@ def run_logistic_regression(data):
                                                                               test_size=0.25)
 
     # TODO: Type of penalty, C(Important)
-    lrc = LogisticRegression(penalty='l2', dual=False, tol=0.01, C=1.0)
+    lrc = LogisticRegression(penalty='l1', dual=False, tol=0.01, C=0.1)
     lrc.fit(feature_train, label_train)
     training_error = lrc.score(feature_train, label_train)
-    cross_validation_score = cross_val_score(lrc, feature_train, label_train, cv=10)
+    #cross_validation_score = cross_val_score(lrc, feature_train, label_train, cv=10)
     testing_error = lrc.score(feature_test, label_test)
 
     print "Logistic Regression Results:"
     print "Training Accuracy:", training_error
-    print "10-fold Cross Validation Accuracy: %0.2f (+/- %0.2f)" % (cross_validation_score.mean(), cross_validation_score.std() * 2)
+    #print "10-fold Cross Validation Accuracy: %0.2f (+/- %0.2f)" % (cross_validation_score.mean(), cross_validation_score.std() * 2)
     print "Testing Accuracy:", testing_error
 
 def run_all_classifiers(data):
     print "------------------------------------------"
     print "Running Random Forest..."
-    run_random_forest(data, None)
-    run_random_forest(data, 5)
+    #run_random_forest(data, None)
+    #run_random_forest(data, 5)
     print "------------------------------------------"
 
     print "------------------------------------------"
     print "Running Gradient Boosting Classifier..."
-    run_gradient_boosting_classifier(data, None)
-    run_gradient_boosting_classifier(data, 5)
+    #run_gradient_boosting_classifier(data, None)
+    #run_gradient_boosting_classifier(data, 5)
     print "------------------------------------------"
 
     print "------------------------------------------"
@@ -126,14 +126,13 @@ def test_code():
     run_all_classifiers(alcoholism_data)
 
 def main():
-    # data = get_data(FILENAME, ',')
-    # print "Loaded Data, Dimensions: ", data.shape
-    #
-    # # Disregard the first two columns(source_id, destination_id). Last column - Label
-    # # TODO: Should we also disregard the third column? Personalized Pagerank Score
-    # run_all_classifiers(data[:,2:])
+    data = get_data(FILENAME, ',')
+    print "Loaded Data, Dimensions: ", data.shape
+    # Disregard the first two columns(source_id, destination_id). Last column - Label
+    # TODO: Should we also disregard the third column? Personalized Pagerank Score
+    run_all_classifiers(data[:,2:])
 
-    test_code()
+    #test_code()
 
 if __name__ == "__main__":
     main()

@@ -68,6 +68,7 @@ def read_graph(file_name):
 
         # Add Edge to the Graph
         nx_graph.add_edge(source, destination)
+        nx_graph.add_edge(destination, source)
 
     return nx_graph
 
@@ -99,7 +100,7 @@ def load_obj(name):
         return pickle.load(f)
 
 def main():
-    nx_graph = read_graph("../data/sampled_train_small.csv")
+    nx_graph = read_graph("../data/facebook_combined.txt")
     print "NetworkX Directed Graph (V,E): (", nx_graph.number_of_nodes(), ",", nx_graph.number_of_edges(), ")"
 
     # Plot the in/out degree distribution
