@@ -84,7 +84,7 @@ def write_submission_file(submission_file, test_nodes, test_predictions):
     """
     f = open(submission_file, "w")
     writer = csv.writer(f)
-    writer.writerow(["source_node", "destinationination_nodes"])
+    writer.writerow(["source_node", "destination_nodes"])
 
     for source_node, destination_nodes in zip(test_nodes, test_predictions):
         writer.writerow([str(source_node),
@@ -100,7 +100,7 @@ def load_obj(name):
         return pickle.load(f)
 
 def main():
-    nx_graph = read_graph("../data/facebook_combined.txt")
+    nx_graph = read_graph("../data/facebook-combined.data")
     print "NetworkX Directed Graph (V,E): (", nx_graph.number_of_nodes(), ",", nx_graph.number_of_edges(), ")"
 
     # Plot the in/out degree distribution

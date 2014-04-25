@@ -3,7 +3,7 @@ import networkx as nx
 import utilities
 
 
-FILE_PATH = "../data/facebook_combined.txt"
+FILE_PATH = "../data/facebook-combined.data"
 
 class PersonalizedPageRank:
     NUM_ITERATIONS = 3
@@ -90,7 +90,6 @@ def save_to_compare_list_to_file(to_compare_list, nx_graph, filename):
             if user_id != entry[0]:
                 f.write(str(user_id) + ", " + str(entry[0]) + ", " + str(entry[1]))
                 if nx_graph.has_edge(user_id, entry[0]):
-	            print "edge"
                     f.write(", 1\n")
                 else:
                     f.write(", 0\n")
@@ -99,7 +98,7 @@ def save_to_compare_list_to_file(to_compare_list, nx_graph, filename):
 
 def main():
     nx_graph = utilities.read_graph(FILE_PATH)
-    #print "NetworkX Directed Graph (V,E): (", nx_graph.number_of_nodes(), ",", nx_graph.number_of_edges(), ")"
+    print "NetworkX Directed Graph (V,E): (", nx_graph.number_of_nodes(), ",", nx_graph.number_of_edges(), ")"
 
     # Create the Personalized pagerank class object
     ppr = PersonalizedPageRank(nx_graph)
@@ -107,8 +106,9 @@ def main():
     # Calculate the to compare list for each node by selecting the nodes with the best personalized pagerank score for each node
     to_compare_list = {}
     for user_id in nx_graph.nodes():
-	if user_id % 100 == 1:
-		print "Running for", user_id
+        if user_id % 100 == 1:
+            print "Running for", user_id
+
         to_compare_list[user_id] = ppr.get_page_rank(user_id)
 
     save_to_compare_list_to_file(to_compare_list, nx_graph, "to_compare_list.txt")
