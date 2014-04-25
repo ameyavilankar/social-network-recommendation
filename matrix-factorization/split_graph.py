@@ -2,7 +2,7 @@ import numpy as np
 import random
 from sklearn.cross_validation import train_test_split
 
-IN_FILE = "sampled_down.train"
+IN_FILE = "../data/facebook-combined.data"
 TRAIN_FILE = "data.train"
 VALIDATION_FILE = "data.validate"
 PREDICT_FILE = "data.predict"
@@ -16,7 +16,7 @@ def get_data(filename, delimiter_type):
 def save_to_file(data, filename):
     f = open(filename,'w')
     for row in data:
-        f.write(str(row[0]) + " " + str(row[1]) + " " + str(row[2]) + "\n")
+        f.write(str(row[0]) + " " + str(row[1]) + ", 1\n")
     f.close()
 
 def save_predict_to_file(data, filename):
